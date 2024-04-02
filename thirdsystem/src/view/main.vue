@@ -3,6 +3,7 @@
   <div class="logosize">
     <img :src="logo" /><span :style="{ fontSize: '30px', fontStyle: 'italic',color:'rgb(15, 112, 112)',marginLeft:'10px',fontWeight:'bold' }">英文打字辅助记忆系统</span>
   </div>
+  <div class="type"><typepart></typepart></div>
   <div class="change"><chosewindow></chosewindow></div>
   <div class="show bottom-fixed"><countpage></countpage></div>
   </div>
@@ -12,6 +13,7 @@
 import logo from "../assets/logo.png";
 import chosewindow from "../components/chosewindow.vue"
 import countpage from "../components/countpage.vue"
+import typepart from "../components/typePart.vue"
 </script>
 
 <style scoped>
@@ -55,5 +57,10 @@ import countpage from "../components/countpage.vue"
     width: 60%;
     background-color:rgb(219, 219, 22) ;
 }
-
+.type{
+  margin-top: 15%;
+    width: 40%;
+    height: 40%;
+    background-color: antiquewhite;
+}
 </style>
