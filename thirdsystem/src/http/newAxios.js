@@ -1,6 +1,5 @@
 import { message } from 'ant-design-vue';
 import axios from 'axios';
-import router from '@/router';
 
 const newAxios = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -23,10 +22,11 @@ newAxios.interceptors.response.use(
             return Promise.resolve(response)
         } else {
             console.log("疑似有问题")
-            return Promise.resolve(response)
+            return Promise.reject(response)
         }
     },
     error => {
+        console.log("这下真有问题")
         console.log(error.response);
         if (error.response.status) {
             let statusCode = error.response.data.code;
@@ -34,7 +34,6 @@ newAxios.interceptors.response.use(
                 case 401:
                     setTimeout(() => {
                         message.warning(error.response.data.message)
-                        router.push('/')
                     }, 1000)
                     break;
                 // 请求错误

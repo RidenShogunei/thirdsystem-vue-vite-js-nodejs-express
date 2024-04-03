@@ -7,7 +7,7 @@ export default createStore({
     time: 0,
     inputnumber: 0,
     correctnumber: 0,
-    correctrate: 0,
+    nownumber: 1,
   },
   mutations: {
     changebook(state, book) {
@@ -19,16 +19,29 @@ export default createStore({
     changetime(state, time) {
       state.time = time;
     },
-    changeinputnumber(state, inputnumber) {
-      state.inputnumber = inputnumber;
+    changeinputnumber(state) {
+      state.inputnumber = state.inputnumber+1;
     },
-    changecorrectnumber(state, correctnumber) {
-      state.correctnumber = correctnumber;
+    changecorrectnumber(state) {
+      state.correctnumber = state.correctnumber+1;
     },
     changecorrectrate(state, correctrate) {
       state.correctrate = correctrate;
     },
+    changenownumber(state, nownumber) {
+      state.nownumber = nownumber;
+    },
   },
   actions: {},
   modules: {},
+  getters: {
+    correctrate: state => {
+      if (state.inputnumber === 0) {
+        return '0.00%';
+      } else {
+        let rate = (state.correctnumber / state.inputnumber) * 100;
+        return rate.toFixed(2) + '%';
+      }
+    }
+  }
 });

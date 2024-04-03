@@ -32,7 +32,7 @@ const correct = computed(() => {
   return store.state.correctnumber;
 });
 const rate = computed(() => {
-  return store.state.correctrate;
+  return store.getters.correctrate;
 });
 const start = computed(() => {
   return store.state.start;
