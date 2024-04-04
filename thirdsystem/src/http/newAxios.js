@@ -19,6 +19,7 @@ newAxios.interceptors.response.use(
     response => {
         console.log(response.data['code'] );
         if (response.data['code'] === 200) {
+            console.log("没有问题")
             return Promise.resolve(response)
         } else {
             console.log("疑似有问题")
@@ -27,7 +28,7 @@ newAxios.interceptors.response.use(
     },
     error => {
         console.log("这下真有问题")
-        console.log(error.response);
+        console.log(error);
         if (error.response.status) {
             let statusCode = error.response.data.code;
             switch (statusCode) {

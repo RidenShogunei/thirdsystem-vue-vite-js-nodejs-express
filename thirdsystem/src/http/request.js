@@ -29,6 +29,7 @@ export function post(url, params) {
             url,
             params
         ).then(res => {
+            console.log("解析中",res.data)
             resolve(res.data)
         }).catch(err => {
             reject(err.data)

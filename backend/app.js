@@ -5,9 +5,9 @@ const mysql = require('mysql');
 const app = express();
 
 const conn = mysql.createConnection({
-  user:'blog',          //用户名
-  password:'chen2003',  //密码
-  host:'47.96.160.149',     //主机（默认都是local host）
+  user:'',          //用户名
+  password:'',  //密码
+  host:'',     //主机（默认都是local host）
   database:'third'     //数据库名
 });
 
@@ -24,13 +24,13 @@ conn.connect(err => {
       conn.query('SELECT 1');
     }, 5000);
 
-    // 连接成功后导入 genshin 路由
-    const genshinRouter = require('./modle/getword')(conn);
+    // 连接成功后导入路由
+    const getwordRouter = require('./modle/getword')(conn);
 
-    app.use('/getword', genshinRouter);
+    app.use('/getword', getwordRouter);
   }
 });
 
-app.listen(4000, () => {
-  console.log('Server is running on http://localhost:4000');
+app.listen(5000, () => {
+  console.log('Server is running on http://localhost:5000');
 });

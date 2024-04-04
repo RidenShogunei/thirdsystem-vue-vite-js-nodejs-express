@@ -7,6 +7,7 @@ import { createStyleImportPlugin } from 'vite-plugin-style-import'
 import Icons from 'unplugin-icons/vite'
 
 export default defineConfig({
+  base: './',
   plugins: [
     vue(),
     AutoImport({

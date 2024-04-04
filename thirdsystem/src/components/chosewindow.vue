@@ -7,11 +7,16 @@
             {{ now }}
             <template #overlay>
               <a-menu @click="handleMenuClick">
-                <a-menu-item key="1"> 托福 </a-menu-item>
-                <a-menu-item key="2"> GRE </a-menu-item>
+                <a-menu-item key="TOEFL"> 托福 </a-menu-item>
+                <a-menu-item key="GRE"> GRE </a-menu-item>
               </a-menu>
             </template>
           </a-dropdown-button>
+        </div>
+        <div class="start">
+          <div>
+            <a-button danger @click="back">归零</a-button>
+          </div>
         </div>
         <div class="start">
           <div>
@@ -25,22 +30,29 @@
 </template>
 
 <script setup>
-const now = ref("托福 ");
+const now = ref("TOEFL ");
 const store = useStore();
-const state = ref(false);
+const state = computed(()=>{
+  return store.state.start;
+});
 const handleMenuClick = (e) => {
   store.commit("changebook", e.key);
-  if (store.state.book === 1) {
-    now.value = "托福";
+  if (store.state.book === 'TOEFL') {
+    now.value = "TOEFL";
   } else {
     now.value = "GRE";
   }
 };
 const start = () => {
-  state.value=!state.value;
-  store.commit("changestart", state.value);
-  console.log('change?',store.state.start)
+  let change = !state.value;
+  store.commit("changestart", change);
 };
+const back = () => {
+  store.commit("changetime", -1);
+  store.commit("changeinputnumber", 0);
+  store.commit("changecorrectnumber", 0);
+  console.log("归零后",store.state.time)
+}
 </script>
 
 <style scoped>

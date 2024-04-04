@@ -95,6 +95,22 @@ watch(start, (newValue) => {
     endHandler();
   }
 });
+watchEffect(() => {
+  if (store.state.time === -1) {
+    endHandler();
+    one.value = "00"; // 时
+    two.value = "00"; // 分
+    three.value = "00"; // 秒
+    abc.value = 0; // 秒的计数
+    cde.value = 0; // 分的计数
+    efg.value = 0; // 时的计数
+    time.value = "";
+    if (store.state.start === true) {
+      startHandle();
+    }
+  }
+
+})
 </script>
 
 <style scoped>
@@ -102,22 +118,27 @@ watch(start, (newValue) => {
   display: flex;
   justify-content: space-around;
 }
+
 .time {
   display: flex;
   flex-direction: column;
 }
+
 .input {
   display: flex;
   flex-direction: column;
 }
+
 .correct {
   display: flex;
   flex-direction: column;
 }
+
 .rate {
   display: flex;
   flex-direction: column;
 }
+
 .clock {
   font-family: "Times New Roman", Times, serif;
   font-size: 20px;

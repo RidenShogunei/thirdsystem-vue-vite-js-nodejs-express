@@ -3,19 +3,17 @@
     <a-card>
       <div class="show">
         <div>
-          <span
-            v-for="(char, index) in word"
-            :key="index"
-            :class="{
-              correct: index <= currentIndex,
-              wrong: currentIndex === -1,
-            }"
-            >{{ char }}</span
-          >
+          <span v-for="(char, index) in word" :key="index" :class="{
+    correct: index <= currentIndex,
+    wrong: currentIndex === -1,
+  }">{{ char }}</span>
         </div>
         <span :style="{ fontSize: '20px', color: 'gray' }">{{
-          translation
-        }}</span>
+    translation
+  }}</span>
+        <span :style="{ fontSize: '20px', color: 'gray' }">[{{
+    note
+          }}]</span>
       </div>
     </a-card>
   </div>
@@ -25,11 +23,19 @@
 import getwordApi from "../api/getword";
 const store = useStore();
 const number = computed(() => {
-  return store.state.nownumber;
+  if (book.value === 'GRE') {
+    return store.state.GREnownumber;
+  } else {
+    return store.state.TOEFLnownumber;
+  }
+});
+const book = computed(() => {
+  return store.state.book;
 });
 const state = computed(() => {
   return store.state.start;
 });
+const note = ref("")
 const word = ref("");
 const translation = ref("");
 const currentIndex = ref(-1); // 当前匹配的字符索引
@@ -39,12 +45,16 @@ const len = computed(() => {
 const nowIndex = ref(0);
 async function getword() {
   try {
-    const result = await getwordApi(number);
-    word.value = result.word;
-    translation.value = result.translation;
+    const response = await getwordApi({ number: number.value, book: book.value });
+    console.log("收到的数据", response)
+    const result = response;  // 添加这行代码
+    word.value = result.data[0].word;
+    translation.value = result.data[0].translation;
+    note.value = result.data[0].note;
   } catch (error) {
     word.value = "mitigate";
     translation.value = "减轻，缓解";
+    note.value = "lalala";
     console.error(error);
   }
 }
@@ -56,6 +66,8 @@ function handleKeyPress(event) {
     nowIndex.value = 0;
     store.commit("changeinputnumber");
     store.commit("changecorrectnumber");
+    store.commit("changenownumber", book.value);
+    localStorage.setItem(`${book.value}`, number.value)
   } else {
     const keyPressed = event.key;
     console.log("点击键盘", event.key);
@@ -77,6 +89,9 @@ getword();
 watch(number, () => {
   getword();
 });
+watch(book, () => {
+  getword();
+})
 onMounted(() => {
   document.addEventListener("keyup", handleKeyPress);
 });
@@ -114,33 +129,43 @@ onBeforeUnmount(() => {
   0% {
     transform: translateX(0);
   }
+
   10% {
     transform: translateX(-5px);
   }
+
   20% {
     transform: translateX(5px);
   }
+
   30% {
     transform: translateX(-5px);
   }
+
   40% {
     transform: translateX(5px);
   }
+
   50% {
     transform: translateX(-5px);
   }
+
   60% {
     transform: translateX(5px);
   }
+
   70% {
     transform: translateX(-5px);
   }
+
   80% {
     transform: translateX(5px);
   }
+
   90% {
     transform: translateX(-5px);
   }
+
   100% {
     transform: translateX(0);
   }

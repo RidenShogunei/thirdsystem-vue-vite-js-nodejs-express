@@ -2,12 +2,13 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    book: "托福",
+    book: "TOEFL",
     start: false,
     time: 0,
     inputnumber: 0,
     correctnumber: 0,
-    nownumber: 1,
+    GREnownumber: 1,
+    TOEFLnownumber: 1,
   },
   mutations: {
     changebook(state, book) {
@@ -19,17 +20,24 @@ export default createStore({
     changetime(state, time) {
       state.time = time;
     },
-    changeinputnumber(state) {
-      state.inputnumber = state.inputnumber+1;
+    changeinputnumber(state, input = null) {
+      if (input === null)
+        state.inputnumber = state.inputnumber + 1;
+      else
+        state.inputnumber = input;
     },
-    changecorrectnumber(state) {
-      state.correctnumber = state.correctnumber+1;
+
+    changecorrectnumber(state, input = null) {
+      if (input === null)
+        state.correctnumber = state.correctnumber + 1;
+      else
+        state.correctnumber = input;
     },
-    changecorrectrate(state, correctrate) {
-      state.correctrate = correctrate;
-    },
-    changenownumber(state, nownumber) {
-      state.nownumber = nownumber;
+    changenownumber(state, book) {
+      if (book === "GRE")
+        state.GREnownumber++;
+      else
+        state.TOEFLnownumber++;
     },
   },
   actions: {},
