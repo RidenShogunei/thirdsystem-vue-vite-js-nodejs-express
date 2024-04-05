@@ -61,7 +61,7 @@ async function getword() {
 function handleKeyPress(event) {
   console.log("进入判断了");
   if (!state.value) {
-  } else if (currentIndex.value === len.value - 2) {
+  } else if (currentIndex.value === len.value - 2&&event.key===word.value[nowIndex.value]) {
     currentIndex.value = -1;
     nowIndex.value = 0;
     store.commit("changeinputnumber");
